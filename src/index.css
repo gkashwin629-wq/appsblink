@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --sp-bg: #f6f4ef;
+    --sp-surface: rgba(255, 255, 255, 0.86);
+    --sp-surface-solid: #ffffff;
+    --sp-surface-muted: #edeae2;
+    --sp-border: rgba(23, 27, 38, 0.11);
+    --sp-border-strong: rgba(23, 27, 38, 0.22);
+    --sp-text: #151822;
+    --sp-text-muted: #4b5263;
+    --sp-gold: #9e6b13;
+    --sp-gold-bright: #c58b20;
+    --sp-teal: #0f766e;
+    --sp-teal-bright: #0d9488;
+    --sp-spotlight: rgba(197, 139, 32, 0.12);
+    --sp-glow: rgba(197, 139, 32, 0.18);
+  }
+
+  .dark {
+    --sp-bg: #0b0d13;
+    --sp-surface: rgba(18, 22, 32, 0.78);
+    --sp-surface-solid: #131722;
+    --sp-surface-muted: #181d2b;
+    --sp-border: rgba(226, 232, 240, 0.1);
+    --sp-border-strong: rgba(226, 232, 240, 0.2);
+    --sp-text: #f3f1eb;
+    --sp-text-muted: #9da6b8;
+    --sp-gold: #d4a84f;
+    --sp-gold-bright: #ecc774;
+    --sp-teal: #2dd4bf;
+    --sp-teal-bright: #5eead4;
+    --sp-spotlight: rgba(212, 168, 79, 0.13);
+    --sp-glow: rgba(212, 168, 79, 0.16);
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--sp-bg);
+    color: var(--sp-text);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--sp-bg);
+    color: var(--sp-text);
+  }
+
+  h1, h2, .font-display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+}
+
+.sp-card {
+  position: relative;
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sp-spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    var(--sp-spotlight),
+    transparent 60%
+  );
+  transition: opacity 200ms ease;
+}
+
+.effects-on .sp-spotlight-card:hover::before {
+  opacity: 1;
+}
+
+.sp-input {
+  background-color: var(--sp-surface-solid);
+  border: 1px solid var(--sp-border);
+  color: var(--sp-text);
+}
+
+.sp-input::placeholder {
+  color: var(--sp-text-muted);
+  opacity: 0.78;
+}
+
+.sp-input:focus-visible,
+button:focus-visible,
+a:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--sp-gold-bright);
+  outline-offset: 2px;
+}
+
+/* Crisscross diagonal theme wipe */
+@keyframes sp-wipe-down {
+  0% {
+    transform: translate3d(-15%, -110%, 0);
+    opacity: 0.95;
+  }
+  45% {
+    transform: translate3d(0%, 0%, 0);
+    opacity: 0.98;
+  }
+  100% {
+    transform: translate3d(15%, 110%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes sp-wipe-up {
+  0% {
+    transform: translate3d(15%, 110%, 0);
+    opacity: 0.95;
+  }
+  45% {
+    transform: translate3d(0%, 0%, 0);
+    opacity: 0.98;
+  }
+  100% {
+    transform: translate3d(-15%, -110%, 0);
+    opacity: 0;
+  }
+}
+
+.sp-wipe-layer-down {
+  clip-path: polygon(0 0, 100% 0, 62% 100%, 0 100%);
+  animation: sp-wipe-down 620ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sp-wipe-layer-up {
+  clip-path: polygon(38% 0, 100% 0, 100% 100%, 0 100%);
+  animation: sp-wipe-up 620ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Click ripple */
+@keyframes sp-ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.15);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.sp-click-ripple {
+  animation: sp-ripple 550ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Intro step reveal */
+@keyframes sp-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.effects-on .sp-animate-reveal {
+  animation: sp-fade-up 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .sp-wipe-layer-down,
+  .sp-wipe-layer-up,
+  .sp-click-ripple,
+  .sp-animate-reveal {
+    animation: none !important;
+  }
+  .sp-spotlight-card::before {
+    display: none !important;
+  }
+}

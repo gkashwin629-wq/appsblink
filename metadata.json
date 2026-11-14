@@ -1,0 +1,6 @@
+{
+  "name": "SkillPath",
+  "description": "A cinematic career-learning platform that helps learners identify skill gaps and follow a personalized roadmap toward a target role.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
